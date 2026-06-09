@@ -4,14 +4,52 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Research Themes — UCLAIT</title>
-  <meta name="description" content="The four research themes of the UCL Analytics & AI for Learning Team: Interaction, Modelling, Intervention, and Adoption." />
+  <meta name="description" content="The four research themes of the UCL Analytics & AI for Learning Team: Interaction, Modelling, Intervention, and Adoption — and the projects within each." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="assets/styles.css" />
   <script defer src="assets/main.js"></script>
+  <!-- Project-presentation styles. Move into assets/styles.css once tokens are aligned. -->
+  <style>
+    .theme-section { scroll-margin-top: 6rem; }
+    .theme-section + .theme-section { margin-top: 3.5rem; }
+    .theme-section__head { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: .4rem; }
+    .theme-section__head .chip { flex: none; }
+    .theme-section__head h2 { margin: 0; }
+    .theme-section > .muted { opacity: .75; max-width: 62ch; }
+
+    .project { border: 1px solid rgba(128,128,160,.25); border-radius: 16px; margin-top: 1.2rem; background: rgba(128,128,160,.06); overflow: hidden; transition: border-color .2s ease; }
+    .project[open], .project:hover { border-color: rgba(128,128,160,.5); }
+    .project > summary { list-style: none; cursor: pointer; padding: 1.1rem 1.3rem; display: flex; align-items: center; gap: 1rem; }
+    .project > summary::-webkit-details-marker { display: none; }
+    .project > summary:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+    .project__heading h3 { margin: 0 0 .25rem; font-size: 1.05rem; line-height: 1.45; }
+    .project__lead { font-size: .85rem; opacity: .7; }
+    .project__toggle { margin-left: auto; flex: none; width: 2rem; height: 2rem; border-radius: 50%; border: 1px solid rgba(128,128,160,.4); display: grid; place-items: center; transition: transform .25s ease; }
+    .project[open] .project__toggle { transform: rotate(45deg); }
+    .project__body { padding: 0 1.3rem 1.4rem; }
+    .project__body h4 { margin: 1.4rem 0 .5rem; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; opacity: .65; }
+    .project__summary { margin: 0; max-width: 70ch; }
+
+    .keywords { display: flex; flex-wrap: wrap; gap: .45rem; padding: 0; margin: 0; list-style: none; }
+    .keywords li { font-size: .78rem; padding: .25rem .7rem; border-radius: 999px; border: 1px solid rgba(128,128,160,.35); opacity: .9; }
+
+    .project__gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: .8rem; padding: 0; margin: 0; list-style: none; }
+    .project__gallery a { display: block; border-radius: 12px; overflow: hidden; border: 1px solid rgba(128,128,160,.3); }
+    .project__gallery img { width: 100%; height: 130px; object-fit: cover; display: block; transition: transform .25s ease; }
+    .project__gallery a:hover img { transform: scale(1.04); }
+    .project__gallery figcaption { font-size: .78rem; padding: .45rem .2rem 0; opacity: .75; }
+
+    .pub-list { list-style: none; margin: 0; padding: 0; }
+    .pub-list li { padding: .65rem 0; border-top: 1px solid rgba(128,128,160,.18); font-size: .9rem; line-height: 1.55; max-width: 75ch; }
+    .pub-list li:first-child { border-top: none; padding-top: 0; }
+    .pub-list a { word-break: break-word; }
+
+    .project__footer { margin-top: 1.4rem; }
+    .placeholder { margin-top: 1.2rem; padding: 1.1rem 1.3rem; border: 1px dashed rgba(128,128,160,.35); border-radius: 16px; font-size: .9rem; opacity: .7; }
+  </style>
 </head>
 <body>
-
   <header class="nav">
     <div class="container nav__inner">
       <a class="brand" href="index.html">
@@ -40,7 +78,6 @@
       </div>
     </div>
   </header>
-
   <main>
     <section class="page-header">
       <div class="container">
@@ -50,39 +87,149 @@
       </div>
     </section>
 
+    <!-- Theme overview: cards now link to their project sections below -->
     <section class="section section--tight">
       <div class="container">
         <div class="grid grid--2">
-
           <article class="card theme-card reveal">
             <span class="chip">01</span>
             <h3><span>INtERACTION</span></h3>
             <p>Human–AI interaction in teaching and learning contexts.</p>
-            <a class="more" href="mailto:m.cukurova@ucl.ac.uk">Discuss this theme <span class="arrow">→</span></a>
+            <a class="more" href="#interaction">View projects <span class="arrow">→</span></a>
           </article>
-
           <article class="card theme-card reveal">
             <span class="chip">02</span>
             <h3><span>ModeLLING</span></h3>
             <p>Computational and statistical models of collaboration and self-regulated learning, built from multimodal learning analytics.</p>
-            <a class="more" href="mailto:m.cukurova@ucl.ac.uk">Discuss this theme <span class="arrow">→</span></a>
+            <a class="more" href="#modelling">View projects <span class="arrow">→</span></a>
           </article>
-
           <article class="card theme-card reveal">
             <span class="chip">03</span>
             <h3><span>INTervention</span></h3>
             <p>Analytics feedback that supports reflection and self-regulation — and its impact in practice.</p>
-            <a class="more" href="mailto:m.cukurova@ucl.ac.uk">Discuss this theme <span class="arrow">→</span></a>
+            <a class="more" href="#intervention">View projects <span class="arrow">→</span></a>
           </article>
-
           <article class="card theme-card reveal">
             <span class="chip">04</span>
             <h3><span>Adoption</span></h3>
             <p>The psychological and social challenges of adopting AI and analytics in educational practice.</p>
-            <a class="more" href="mailto:m.cukurova@ucl.ac.uk">Discuss this theme <span class="arrow">→</span></a>
+            <a class="more" href="#adoption">View projects <span class="arrow">→</span></a>
           </article>
-
         </div>
+      </div>
+    </section>
+
+    <!-- ====================== PROJECTS BY THEME ====================== -->
+    <section class="section">
+      <div class="container">
+
+        <!-- 01 · Interaction -->
+        <div class="theme-section reveal" id="interaction">
+          <div class="theme-section__head">
+            <span class="chip">01</span>
+            <h2>Interaction</h2>
+          </div>
+          <p class="muted">Human–AI interaction in teaching and learning contexts.</p>
+          <p class="placeholder">Project profiles for this theme are being added. Meanwhile, see our <a href="publications.html">publications</a>.</p>
+        </div>
+
+        <!-- 02 · Modelling -->
+        <div class="theme-section reveal" id="modelling">
+          <div class="theme-section__head">
+            <span class="chip">02</span>
+            <h2>Modelling</h2>
+          </div>
+          <p class="muted">Computational and statistical models of collaboration and self-regulated learning, built from multimodal learning analytics.</p>
+          <p class="placeholder">Project profiles for this theme are being added. Meanwhile, see our <a href="publications.html">publications</a>.</p>
+        </div>
+
+        <!-- 03 · Intervention -->
+        <div class="theme-section reveal" id="intervention">
+          <div class="theme-section__head">
+            <span class="chip">03</span>
+            <h2>Intervention</h2>
+          </div>
+          <p class="muted">Analytics feedback that supports reflection and self-regulation — and its impact in practice.</p>
+
+          <!--
+            PROJECT TEMPLATE — duplicate this <details> block to add a project.
+            Fields: title, lead contact, summary, keywords, visuals (Drive thumbnails), publications.
+          -->
+          <details class="project reveal">
+            <summary>
+              <div class="project__heading">
+                <h3>Supporting Students' Regulation of Learning in Small Group Collaboration in Higher Education: A Multimodal Learning Analytics Approach</h3>
+                <span class="project__lead">Contact: Wannapon Suraworachet</span>
+              </div>
+              <span class="project__toggle" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              </span>
+            </summary>
+            <div class="project__body">
+              <h4>Research summary</h4>
+              <p class="project__summary">Effective collaboration requires awareness of group challenges and timely regulation. This research investigates how learning analytics can detect challenge moments in small-group discourse and support students' regulation through an NLP-based predictive model and a feedback dashboard. Findings from a real-world deployment show that analytics-driven feedback can raise students' awareness, particularly at the individual level, though group regulation remains limited with practical challenges. This work offers a theoretically grounded, empirically validated framework for detecting and supporting socially shared regulation of learning in authentic higher education settings.</p>
+
+              <h4>Keywords</h4>
+              <ul class="keywords">
+                <li>regulation of learning</li>
+                <li>collaboration</li>
+                <li>large language models</li>
+                <li>feedback</li>
+                <li>collaboration analytics</li>
+                <li>discourse</li>
+                <li>natural language processing</li>
+              </ul>
+
+              <h4>Visuals</h4>
+              <ul class="project__gallery">
+                <li>
+                  <figure>
+                    <a href="https://drive.google.com/file/d/1Yfyk3gSVJM1aCPwaKUuuYSlR7KDifUUP/view" target="_blank" rel="noopener">
+                      <img src="https://drive.google.com/thumbnail?id=1Yfyk3gSVJM1aCPwaKUuuYSlR7KDifUUP&amp;sz=w800" alt="Students collaborating in the DUTE class" loading="lazy" onerror="this.closest('figure').querySelector('img').remove()" />
+                    </a>
+                    <figcaption>DUTE class</figcaption>
+                  </figure>
+                </li>
+                <li>
+                  <figure>
+                    <a href="https://drive.google.com/file/d/1FyhSFFTqwr-S84k1qJqAbMnPpQfcZXt7/view" target="_blank" rel="noopener">
+                      <img src="https://drive.google.com/thumbnail?id=1FyhSFFTqwr-S84k1qJqAbMnPpQfcZXt7&amp;sz=w800" alt="Collaboration analytics feedback dashboard" loading="lazy" onerror="this.closest('figure').querySelector('img').remove()" />
+                    </a>
+                    <figcaption>Collaboration analytics feedback</figcaption>
+                  </figure>
+                </li>
+                <li>
+                  <figure>
+                    <a href="https://drive.google.com/file/d/1GxRtgCsHA-jPsBIvioGJZZr0x9pH8_UI/view" target="_blank" rel="noopener">
+                      <img src="https://drive.google.com/thumbnail?id=1GxRtgCsHA-jPsBIvioGJZZr0x9pH8_UI&amp;sz=w800" alt="Collaboration analytics feedback dashboard, version 2" loading="lazy" onerror="this.closest('figure').querySelector('img').remove()" />
+                    </a>
+                    <figcaption>Collaboration analytics feedback v2</figcaption>
+                  </figure>
+                </li>
+              </ul>
+
+              <h4>Selected publications</h4>
+              <ul class="pub-list">
+                <li>Suraworachet, W., Seon, J., &amp; Cukurova, M. (2024). Predicting challenge moments from students&rsquo; discourse: A comparison of GPT-4 to two traditional natural language processing approaches. <em>Proceedings of the 14th Learning Analytics and Knowledge Conference</em>, 473&ndash;485. <a href="https://doi.org/10.1145/3636555.3636905" target="_blank" rel="noopener">doi:10.1145/3636555.3636905</a></li>
+                <li>Villa-Torrano, C., Suraworachet, W., Gomez-Sanchez, E., Asensio-Perez, J. I., Bote-Lorenzo, M. L., Martinez-Mones, A., Zhou, Q., Cukurova, M., &amp; Dimitriadis, Y. (2025). Using learning design and learning analytics to promote, detect and support Socially-Shared Regulation of Learning: A systematic literature review. <em>Computers &amp; Education</em>, 232, 105261. <a href="https://doi.org/10.1016/j.compedu.2025.105261" target="_blank" rel="noopener">doi:10.1016/j.compedu.2025.105261</a></li>
+                <li>Suraworachet, W., Zhou, Q., &amp; Cukurova, M. (2025). University students&rsquo; perceptions of a multimodal AI system for real-world collaboration analytics: Lessons learned from a case study. <em>Journal of Computer Assisted Learning</em>, 41(5), e70103. <a href="https://doi.org/10.1111/jcal.70103" target="_blank" rel="noopener">doi:10.1111/jcal.70103</a></li>
+              </ul>
+
+              <p class="project__footer"><a class="more" href="mailto:m.cukurova@ucl.ac.uk?subject=UCLAIT%20project%3A%20Regulation%20of%20Learning%20in%20Collaboration">Discuss this project <span class="arrow">→</span></a></p>
+            </div>
+          </details>
+        </div>
+
+        <!-- 04 · Adoption -->
+        <div class="theme-section reveal" id="adoption">
+          <div class="theme-section__head">
+            <span class="chip">04</span>
+            <h2>Adoption</h2>
+          </div>
+          <p class="muted">The psychological and social challenges of adopting AI and analytics in educational practice.</p>
+          <p class="placeholder">Project profiles for this theme are being added. Meanwhile, see our <a href="publications.html">publications</a>.</p>
+        </div>
+
       </div>
     </section>
 
@@ -100,7 +247,6 @@
       </div>
     </section>
   </main>
-
   <footer class="footer">
     <div class="container">
       <div class="footer__grid">
@@ -137,6 +283,5 @@
       </div>
     </div>
   </footer>
-
 </body>
 </html>
