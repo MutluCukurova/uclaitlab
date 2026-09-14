@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research Themes — UCLAIT</title>
+  <meta name="description" content="The four research themes of the UCL Analytics & AI for Learning Team: Interaction, Modelling, Intervention, and Adoption — and the projects within each." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="assets/styles.css?v=2" />
+  <script defer src="assets/main.js?v=2"></script>
+  <!-- Project-presentation styles. Move into assets/styles.css once tokens are aligned. -->
+  <style>
+    .theme-section { scroll-margin-top: 6rem; }
+    /* A new theme block always follows the previous theme's project cards, so key the
+       separation off that pairing (the adjacent-theme rule below never actually matched). */
+    .project + .theme-section { margin-top: 3.5rem; }
+    .theme-section + .theme-section { margin-top: 3.5rem; }
+    .theme-section__head { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: .4rem; }
+    .theme-section__head .chip { flex: none; }
+    .theme-section__head h2 { margin: 0; }
+    .theme-section > .muted { opacity: .75; max-width: 62ch; }
+
+    .project { border: 1px solid rgba(128,128,160,.25); border-radius: 16px; margin-top: 1.2rem; background: rgba(128,128,160,.06); overflow: hidden; transition: border-color .2s ease; }
+    .project[open], .project:hover { border-color: rgba(128,128,160,.5); }
+    .project > summary { list-style: none; cursor: pointer; padding: 1.1rem 1.3rem; display: flex; align-items: center; gap: 1rem; }
+    .project > summary::-webkit-details-marker { display: none; }
+    .project > summary:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+    .project__heading h3 { margin: 0 0 .25rem; font-size: 1.05rem; line-height: 1.45; }
+    .project__lead { font-size: .85rem; opacity: .7; }
+    .project__toggle { margin-left: auto; flex: none; width: 2rem; height: 2rem; border-radius: 50%; border: 1px solid rgba(128,128,160,.4); display: grid; place-items: center; transition: transform .25s ease; }
+    .project[open] .project__toggle { transform: rotate(45deg); }
+    .project__body { padding: 0 1.3rem 1.4rem; }
+    .project__body h4 { margin: 1.4rem 0 .5rem; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; opacity: .65; }
+    .project__summary { margin: 0; max-width: 70ch; }
+
+    .keywords { display: flex; flex-wrap: wrap; gap: .45rem; padding: 0; margin: 0; list-style: none; }
+    .keywords li { font-size: .78rem; padding: .25rem .7rem; border-radius: 999px; border: 1px solid rgba(128,128,160,.35); opacity: .9; }
+
+    .project__gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: .8rem; padding: 0; margin: 0; list-style: none; }
+    .project__gallery a { display: block; border-radius: 12px; overflow: hidden; border: 1px solid rgba(128,128,160,.3); }
+    .project__gallery img { width: 100%; height: 130px; object-fit: cover; display: block; transition: transform .25s ease; }
+    .project__gallery a:hover img { transform: scale(1.04); }
+    .project__gallery figcaption { font-size: .78rem; padding: .45rem .2rem 0; opacity: .75; }
+
+    .pub-list { list-style: none; margin: 0; padding: 0; }
+    .pub-list li { padding: .65rem 0; border-top: 1px solid rgba(128,128,160,.18); font-size: .9rem; line-height: 1.55; max-width: 75ch; }
+    .pub-list li:first-child { border-top: none; padding-top: 0; }
+    .pub-list a { word-break: break-word; }
+
+    .project__footer { margin-top: 1.4rem; }
+    .placeholder { margin-top: 1.2rem; padding: 1.1rem 1.3rem; border: 1px dashed rgba(128,128,160,.35); border-radius: 16px; font-size: .9rem; opacity: .7; }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav__inner">
+      <a class="brand" href="index.html">
+        <img src="images/a2aabb_ce981aacd96a4968916def9b29ad0d88~mv2.avif" alt="UCL Knowledge Lab logo" />
+        <span class="brand__text"><small>UCL Knowledge Lab</small><span class="brand__name">UCL<b>AIT</b></span></span>
+      </a>
+      <nav aria-label="Primary">
+        <ul class="nav__links" id="navLinks">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="research.html">Research</a></li>
+          <li><a href="publications.html">Publications</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="reading-club.html">Reading Club/Workshop</a></li>
+          <li><a href="social.html">Social</a></li>
+        </ul>
+      </nav>
+      <div class="nav__actions">
+        <button class="icon-btn theme-toggle" aria-label="Toggle colour theme" type="button">
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button class="icon-btn nav__burger" aria-label="Open menu" aria-expanded="false" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section class="page-header">
+      <div class="container">
+        <p class="breadcrumb"><a href="index.html">Home</a> / Research Themes</p>
+        <h1>Research <span class="gradient-text">Themes</span></h1>
+        <p class="lead">Four strands carry our work from human–AI interaction, through computational modelling, to real-world intervention and adoption.</p>
+      </div>
+    </section>
+
+    <!-- Theme overview: cards now link to their project sections below -->
+    <section class="section section--tight">
+      <div class="container">
+        <div class="grid grid--2">
+          <article class="card theme-card reveal">
+            <span class="chip">01</span>
+            <h3><span>INtERACTION</span></h3>
+            <p>Human–AI interaction in teaching and learning contexts.</p>
+            <a class="more" href="#interaction">View projects <span class="arrow">→</span></a>
+          </article>
+          <article class="card theme-card reveal">
+            <span class="chip">02</span>
+            <h3><span>ModeLLING</span></h3>
+            <p>Computational and statistical models of collaboration and self-regulated learning, built from multimodal learning analytics.</p>
+            <a class="more" href="#modelling">View projects <span class="arrow">→</span></a>
+          </article>
+          <article class="card theme-card reveal">
+            <span class="chip">03</span>
+            <h3><span>INTervention</span></h3>
+            <p>Analytics feedback that supports reflection and self-regulation — and its impact in practice.</p>
+            <a class="more" href="#intervention">View projects <span class="arrow">→</span></a>
+          </article>
+          <article class="card theme-card reveal">
+            <span class="chip">04</span>
+            <h3><span>Adoption</span></h3>
+            <p>The psychological and social challenges of adopting AI and analytics in educational practice.</p>
+            <a class="more" href="#adoption">View projects <span class="arrow">→</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================== PROJECTS BY THEME ====================== -->
+    <section class="section">
+      <div class="container">
+
+        <!-- 01 · Interaction -->
+        <div class="theme-section reveal" id="interaction">
+          <div class="theme-section__head">
+            <span class="chip">01</span>
+            <h2>Interaction</h2>
+          </div>
+          <p class="muted">Human–AI interaction in teaching and learning contexts.</p>
+        </div>
+
+        <details class="project reveal">
+  <summary>
+    <div class="project__heading">
+      <h3>Enhancing Student Engagement and Knowledge Construction in Online Discussion Forums Through an AI-Generated Summary-Driven Learning Design</h3>
+      <span class="project__lead">Contact: Xinyuan Hao</span>
+    </div>
+    <span class="project__toggle" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+    </span>
+  </summary>
+  <div class="project__body">
+    <h4>Research summary</h4>
+    <p class="project__summary">Online discussion forums are widely used in higher education, yet sustaining meaningful participation and deep knowledge construction remains challenging. This research investigates the impact of an AI-generated summary-driven learning design on students&rsquo; engagement, knowledge construction, and social capital in asynchronous online discussions. Adopting a design-based research methodology across four iterative cycles, the study combines learning design interventions with interviews and focus groups to examine both learning processes and student experiences. Findings indicate that the AI-generated summary-driven learning design can increase posting, replying, and viewing activity, support more students in reaching higher levels of knowledge construction, and strengthen bridging social capital within the learning community. The work contributes empirical evidence on the educational value of AI-generated learning support and offers practical design principles for integrating generative AI into online learning environments.</p>
+
+    <h4>Keywords</h4>
+    <ul class="keywords">
+      <li>online discussion forums</li>
+      <li>generative AI</li>
+      <li>learning design</li>
+      <li>student engagement</li>
+      <li>knowledge construction</li>
+      <li>social capital</li>
+    </ul>
+
+    <h4>Selected publications</h4>
+    <ul class="pub-list">
+      <li>Hao, X., &amp; Cukurova, M. (2025). Enhancing engagement and social capital through an AI-generated summary-driven learning design in online discussion forums. In K. Tammets, S. Sosnovsky, R. F. Mello, G. Pishtari, &amp; T. Nazaretsky (Eds.), <em>Two Decades of TEL: From Lessons Learnt to Challenges Ahead (EC-TEL 2025)</em>, Lecture Notes in Computer Science, vol.&nbsp;16063. Springer. <a href="https://doi.org/10.1007/978-3-032-03870-8_16" target="_blank" rel="noopener">doi:10.1007/978-3-032-03870-8_16</a></li>
+      <li>Hao, X., &amp; Cukurova, M. (2023). Exploring the effects of &ldquo;AI-generated&rdquo; discussion summaries on learners&rsquo; engagement in online discussions. In N. Wang, G. Rebolledo-Mendez, V. Dimitrova, N. Matsuda, &amp; O. C. Santos (Eds.), <em>Artificial Intelligence in Education. Posters and Late Breaking Results, Workshops and Tutorials, Industry and Innovation Tracks, Practitioners, Doctoral Consortium and Blue Sky (AIED 2023)</em>, Communications in Computer and Information Science, vol.&nbsp;1831. Springer. <a href="https://doi.org/10.1007/978-3-031-36336-8_24" target="_blank" rel="noopener">doi:10.1007/978-3-031-36336-8_24</a></li>
+    </ul>
+
+    <p class="project__footer"><a class="more" href="mailto:m.cukurova@ucl.ac.uk?subject=UCLAIT%20project%3A%20AI-Generated%20Summaries%20in%20Online%20Discussion%20Forums">Discuss this project <span class="arrow">→</span></a></p>
+  </div>
+</details>
+
+        <!-- 02 · Modelling -->
+        <div class="theme-section reveal" id="modelling">
+          <div class="theme-section__head">
+            <span class="chip">02</span>
+            <h2>Modelling</h2>
+          </div>
+          <p class="muted">Computational and statistical models of collaboration and self-regulated learning, built from multimodal learning analytics.</p>
+        </div>
+
+        <details class="project reveal">
+  <summary>
+    <div class="project__heading">
+      <h3>Enhancing Teacher Interventions by Designing an Adaptive Support for Online Collaborative Problem Solving with Large Language Models</h3>
+      <span class="project__lead">Contact: Kester Wong</span>
+    </div>
+    <span class="project__toggle" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+    </span>
+  </summary>
+  <div class="project__body">
+    <h4>Research summary</h4>
+    <p class="project__summary">Collaborative Problem Solving (CPS) is a multilevel process involving the perspectives of both individuals and groups, in which activated cognitive domain knowledge and the social aspects of interaction are dynamically engaged towards shared understanding (Luckin et al., 2017). Existing studies have explored the use of coaching (D&rsquo;Mello et al., 2024) and social robots (Nasir et al., 2023) to support and improve aspects of CPS competency; however, just-in-time guidance on CPS processes and the alignment of such support to teaching practice remain underexplored. This research proposes an adaptive support for CPS involving scaffolding of problem-solving and collaborative processes, taking a data-driven approach to the design of an adaptive scaffold intervention. Explorations investigate the use of transformer-based models for CPS diagnosis, with these diagnoses and interventions subsequently compared to those produced by teachers as a preliminary step towards designing an adaptive scaffold intervention system that helps teachers better support students in CPS.</p>
+
+    <h4>Keywords</h4>
+    <ul class="keywords">
+      <li>collaborative problem solving</li>
+      <li>adaptive scaffolding</li>
+      <li>teacher support</li>
+      <li>multimodal audio data</li>
+      <li>process mining</li>
+      <li>agentic AI workflow</li>
+    </ul>
+
+    <h4>Selected publications</h4>
+    <ul class="pub-list">
+      <li>Wong, K., Bulathwela, S., &amp; Cukurova, M. (2026). Towards an adaptive AI scaffold for developing student collaborative problem solving. <em>Learning and Instruction</em>. Accepted; pending DOI.</li>
+      <li>Wong, K., Shihui, F., Bulathwela, S., &amp; Cukurova, M. (2026). Scaffolding reshapes dialogic engagement in collaborative problem solving: Comparative analysis of two approaches. <em>Proceedings of the 16th International Learning Analytics and Knowledge Conference (LAK &rsquo;26)</em>, 227&ndash;238. <a href="https://doi.org/10.1145/3785022.3785053" target="_blank" rel="noopener">doi:10.1145/3785022.3785053</a></li>
+      <li>Wong, K., Wu, B., Bulathwela, S., &amp; Cukurova, M. (2025). Rethinking the potential of multimodality in collaborative problem solving diagnosis with large language models. In A. I. Cristea, E. Walker, Y. Lu, O. C. Santos, &amp; S. Isotani (Eds.), <em>Artificial Intelligence in Education (AIED 2025)</em>, Lecture Notes in Computer Science, vol.&nbsp;15878 (pp. 18&ndash;32). Springer. <a href="https://doi.org/10.1007/978-3-031-98417-4_2" target="_blank" rel="noopener">doi:10.1007/978-3-031-98417-4_2</a></li>
+      <li>Wong, K., Bulathwela, S., &amp; Cukurova, M. (2025). Explainable collaborative problem solving diagnosis with BERT using SHAP and its implications for teacher adoption. <em>arXiv preprint</em>. <a href="https://doi.org/10.48550/arXiv.2507.14584" target="_blank" rel="noopener">doi:10.48550/arXiv.2507.14584</a></li>
+      <li>Wong, K., Bulathwela, S., &amp; Cukurova, M. (2025). Exploring human&ndash;AI complementarity in CPS diagnosis using unimodal and multimodal BERT models. <em>arXiv preprint</em>. <a href="https://doi.org/10.48550/arXiv.2507.14579" target="_blank" rel="noopener">doi:10.48550/arXiv.2507.14579</a></li>
+    </ul>
+
+    <p class="project__footer"><a class="more" href="mailto:m.cukurova@ucl.ac.uk?subject=UCLAIT%20project%3A%20Adaptive%20Support%20for%20CPS">Discuss this project <span class="arrow">→</span></a></p>
+  </div>
+  </details>
+        
+        <!-- 03 · Intervention -->
+        <div class="theme-section reveal" id="intervention">
+          <div class="theme-section__head">
+            <span class="chip">03</span>
+            <h2>Intervention</h2>
+          </div>
+          <p class="muted">Analytics feedback that supports reflection and self-regulation — and its impact in practice.</p>
+
+          <!--
+            PROJECT TEMPLATE — duplicate this <details> block to add a project.
+            Fields: title, lead contact, summary, keywords, visuals (Drive thumbnails), publications.
+          -->
+          <details class="project reveal">
+            <summary>
+              <div class="project__heading">
+                <h3>Supporting Students' Regulation of Learning in Small Group Collaboration in Higher Education: A Multimodal Learning Analytics Approach</h3>
+                <span class="project__lead">Contact: Wannapon Suraworachet</span>
+              </div>
+              <span class="project__toggle" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              </span>
+            </summary>
+            <div class="project__body">
+              <h4>Research summary</h4>
+              <p class="project__summary">Effective collaboration requires awareness of group challenges and timely regulation. This research investigates how learning analytics can detect challenge moments in small-group discourse and support students' regulation through an NLP-based predictive model and a feedback dashboard. Findings from a real-world deployment show that analytics-driven feedback can raise students' awareness, particularly at the individual level, though group regulation remains limited with practical challenges. This work offers a theoretically grounded, empirically validated framework for detecting and supporting socially shared regulation of learning in authentic higher education settings.</p>
+
+              <h4>Keywords</h4>
+              <ul class="keywords">
+                <li>regulation of learning</li>
+                <li>collaboration</li>
+                <li>large language models</li>
+                <li>feedback</li>
+                <li>collaboration analytics</li>
+                <li>discourse</li>
+                <li>natural language processing</li>
+              </ul>
+
+              <h4>Visuals</h4>
+              <ul class="project__gallery">
+                <li>
+                  <figure>
+                    <a href="https://drive.google.com/file/d/1Yfyk3gSVJM1aCPwaKUuuYSlR7KDifUUP/view" target="_blank" rel="noopener">
+                      <img src="https://drive.google.com/thumbnail?id=1Yfyk3gSVJM1aCPwaKUuuYSlR7KDifUUP&amp;sz=w800" alt="Students collaborating in the DUTE class" loading="lazy" onerror="this.closest('figure').querySelector('img').remove()" />
+                    </a>
+                    <figcaption>DUTE class</figcaption>
+                  </figure>
+                </li>
+                <li>
+                  <figure>
+                    <a href="https://drive.google.com/file/d/1FyhSFFTqwr-S84k1qJqAbMnPpQfcZXt7/view" target="_blank" rel="noopener">
+                      <img src="https://drive.google.com/thumbnail?id=1FyhSFFTqwr-S84k1qJqAbMnPpQfcZXt7&amp;sz=w800" alt="Collaboration analytics feedback dashboard" loading="lazy" onerror="this.closest('figure').querySelector('img').remove()" />
+                    </a>
+                    <figcaption>Collaboration analytics feedback</figcaption>
+                  </figure>
+                </li>
+                <li>
+                  <figure>
+                    <a href="https://drive.google.com/file/d/1GxRtgCsHA-jPsBIvioGJZZr0x9pH8_UI/view" target="_blank" rel="noopener">
+                      <img src="https://drive.google.com/thumbnail?id=1GxRtgCsHA-jPsBIvioGJZZr0x9pH8_UI&amp;sz=w800" alt="Collaboration analytics feedback dashboard, version 2" loading="lazy" onerror="this.closest('figure').querySelector('img').remove()" />
+                    </a>
+                    <figcaption>Collaboration analytics feedback v2</figcaption>
+                  </figure>
+                </li>
+              </ul>
+
+              <h4>Selected publications</h4>
+              <ul class="pub-list">
+                <li>Suraworachet, W., Seon, J., &amp; Cukurova, M. (2024). Predicting challenge moments from students&rsquo; discourse: A comparison of GPT-4 to two traditional natural language processing approaches. <em>Proceedings of the 14th Learning Analytics and Knowledge Conference</em>, 473&ndash;485. <a href="https://doi.org/10.1145/3636555.3636905" target="_blank" rel="noopener">doi:10.1145/3636555.3636905</a></li>
+                <li>Villa-Torrano, C., Suraworachet, W., Gomez-Sanchez, E., Asensio-Perez, J. I., Bote-Lorenzo, M. L., Martinez-Mones, A., Zhou, Q., Cukurova, M., &amp; Dimitriadis, Y. (2025). Using learning design and learning analytics to promote, detect and support Socially-Shared Regulation of Learning: A systematic literature review. <em>Computers &amp; Education</em>, 232, 105261. <a href="https://doi.org/10.1016/j.compedu.2025.105261" target="_blank" rel="noopener">doi:10.1016/j.compedu.2025.105261</a></li>
+                <li>Suraworachet, W., Zhou, Q., &amp; Cukurova, M. (2025). University students&rsquo; perceptions of a multimodal AI system for real-world collaboration analytics: Lessons learned from a case study. <em>Journal of Computer Assisted Learning</em>, 41(5), e70103. <a href="https://doi.org/10.1111/jcal.70103" target="_blank" rel="noopener">doi:10.1111/jcal.70103</a></li>
+              </ul>
+
+              <p class="project__footer"><a class="more" href="mailto:m.cukurova@ucl.ac.uk?subject=UCLAIT%20project%3A%20Regulation%20of%20Learning%20in%20Collaboration">Discuss this project <span class="arrow">→</span></a></p>
+            </div>
+          </details>
+          
+          <details class="project reveal">
+  <summary>
+    <div class="project__heading">
+      <h3>Supporting SRL in Online Learning through LA-Driven LLM Feedback: Examining Learner Perceptions</h3>
+      <span class="project__lead">Contact: Mutluhan Yilmaz</span>
+    </div>
+    <span class="project__toggle" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+    </span>
+  </summary>
+  <div class="project__body">
+    <h4>Research summary</h4>
+    <p class="project__summary">This doctoral research investigates the role of LLM-generated, trace-based feedback in supporting self-regulated learning (SRL) skills in online higher education. Drawing on learning analytics data, it compares LLM- and tutor-generated feedback across multiple feedback instances over a term, moving beyond single-session designs to examine longitudinal SRL development. Both the quality of the feedback produced and learners&rsquo; perceptions of it are examined, contextualising its potential instructional value. Findings are expected to contribute to the design of scalable, high-quality feedback interventions in online learning contexts.</p>
+
+    <h4>Keywords</h4>
+    <ul class="keywords">
+      <li>self-regulated learning</li>
+      <li>feedback</li>
+      <li>online learning</li>
+      <li>large language models</li>
+      <li>learning analytics</li>
+    </ul>
+
+    <h4>Selected publications</h4>
+    <ul class="pub-list">
+      <li>Yilmaz, M., Gauthier, A., &amp; Cukurova, M. (2026). Supporting online learners&rsquo; regulation skills with the help of learning analytics and generative artificial intelligence. <em>Educational Technology Research and Development</em>, 1&ndash;30.</li>
+      <li>Yilmaz, M., Temur, H. B., Emmungil, L., &Ccedil;elik, E., Gauthier, A., &amp; Cukurova, M. (2026). Supporting self-regulated learning through generative AI feedback in online higher education: The importance of student perceptions of the source of feedback. <em>International Journal of Educational Technology in Higher Education</em>, 23(1), 16.</li>
+    </ul>
+
+    <p class="project__footer"><a class="more" href="mailto:m.cukurova@ucl.ac.uk?subject=UCLAIT%20project%3A%20SRL%20Feedback%20in%20Online%20Learning">Discuss this project <span class="arrow">→</span></a></p>
+  </div>
+</details>
+
+<details class="project reveal">
+  <summary>
+    <div class="project__heading">
+      <h3>Scaffolding Students&rsquo; Engagement with Learning Analytics Feedback in Higher Education</h3>
+      <span class="project__lead">Contact: Yildiz Uzun</span>
+    </div>
+    <span class="project__toggle" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+    </span>
+  </summary>
+  <div class="project__body">
+    <h4>Research summary</h4>
+    <p class="project__summary">Learning analytics feedback, frequently delivered through dashboards and visualisations, holds promise for supporting self-regulated learning (SRL) in higher education, yet students often struggle to interpret and act upon such feedback. This research investigates how scaffolding through a generative AI assistant can mediate students&rsquo; engagement with analytics feedback. A first strand of empirical work establishes the relationship between engagement with analytics feedback, SRL competence, and course performance, providing the foundation for design. A second strand analyses the dialogues that emerge between students and a GenAI assistant when interpreting analytics visualisations, characterising the questions students raise and the response patterns that productively support sense-making. Together, the work contributes design principles for AI-scaffolded analytics feedback that bridges visualisation and learner interpretation, with implications for integrating generative AI into feedback infrastructures in higher education.</p>
+
+    <h4>Keywords</h4>
+    <ul class="keywords">
+      <li>scaffolding</li>
+      <li>engagement</li>
+      <li>GenAI assistant</li>
+      <li>self-regulated learning</li>
+      <li>learning analytics feedback</li>
+      <li>visualisations</li>
+    </ul>
+
+    <h4>Selected publications</h4>
+    <ul class="pub-list">
+      <li>Uzun, Y., Gauthier, A., &amp; Cukurova, M. (2026). What students ask, how a generative AI assistant responds: Exploring higher education students&rsquo; dialogues on learning analytics feedback. <em>Proceedings of the 16th International Learning Analytics and Knowledge Conference (LAK &rsquo;26)</em>, 42&ndash;52. <a href="https://doi.org/10.1145/3785022.3785028" target="_blank" rel="noopener">doi:10.1145/3785022.3785028</a></li>
+      <li>Uzun, Y., Suraworachet, W., Zhou, Q., Gauthier, A., &amp; Cukurova, M. (2025). Engagement with analytics feedback and its relationship to self-regulated learning competence and course performance. <em>International Journal of Educational Technology in Higher Education</em>, 22(1), 17. <a href="https://doi.org/10.1186/s41239-025-00515-3" target="_blank" rel="noopener">doi:10.1186/s41239-025-00515-3</a></li>
+    </ul>
+
+    <p class="project__footer"><a class="more" href="mailto:m.cukurova@ucl.ac.uk?subject=UCLAIT%20project%3A%20Scaffolding%20Engagement%20with%20Learning%20Analytics%20Feedback">Discuss this project <span class="arrow">→</span></a></p>
+  </div>
+</details>
+          
+        </div>
+
+        <!-- 04 · Adoption -->
+        <div class="theme-section reveal" id="adoption">
+          <div class="theme-section__head">
+            <span class="chip">04</span>
+            <h2>Adoption</h2>
+          </div>
+          <p class="muted">The psychological and social challenges of adopting AI and analytics in educational practice.</p>
+        </div>
+        
+        <details class="project reveal">
+  <summary>
+    <div class="project__heading">
+      <h3>Benchmarking and Mitigating Gender Bias Through Scaffolding Interaction in Educational Applications of LLMs</h3>
+      <span class="project__lead">Contact: Yishan Du</span>
+    </div>
+    <span class="project__toggle" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+    </span>
+  </summary>
+  <div class="project__body">
+    <h4>Research summary</h4>
+    <p class="project__summary">Large language models are rapidly entering educational workflows, including teacher-facing tasks such as formative feedback and assessment, where implicit and context-dependent gender bias may surface through subtle shifts in tone, emphasis, and pedagogical framing with cumulative downstream consequences for students&rsquo; motivation, academic identity, and long-term trajectories. Two gaps remain in the field: a lack of robust, replicable, and interpretable benchmarking methods that detect subtle bias beyond template-based audits; and limited empirical evidence on how teacher&ndash;LLM interaction co-constructs, amplifies, or corrects model tendencies. This work therefore advances a two-strand programme connecting technical bias benchmarking with interactional bias co-construction. The first strand develops an education-grounded auditing framework using counterfactual educational inputs that differ only in gender cues, benchmarking representative LLMs on authentic student-writing feedback tasks via embedding-space mapping while controlling for stochasticity, with complementary qualitative and text-analytic interpretation. The second strand brings teachers into the loop through a workshop-style behavioural study under no-AI versus AI-assisted conditions, capturing decision changes, confidence shifts, adoption/editing behaviour, and bias indices, towards a taxonomy of human&ndash;AI bias interaction regimes.</p>
+
+    <h4>Keywords</h4>
+    <ul class="keywords">
+      <li>gender bias</li>
+      <li>large language models</li>
+      <li>educational fairness</li>
+      <li>counterfactual auditing</li>
+      <li>teacher&ndash;AI interaction</li>
+      <li>formative feedback</li>
+      <li>bias benchmarking</li>
+    </ul>
+
+    <h4>Selected publications</h4>
+    <ul class="pub-list">
+      <li>Du, Y., Borchers, C., &amp; Cukurova, M. (2025). Benchmarking educational LLMs with analytics: A case study on gender bias in feedback. <em>arXiv preprint</em> arXiv:2511.08225. <a href="https://arxiv.org/abs/2511.08225" target="_blank" rel="noopener">arXiv:2511.08225</a></li>
+    </ul>
+
+    <p class="project__footer"><a class="more" href="mailto:m.cukurova@ucl.ac.uk?subject=UCLAIT%20project%3A%20Gender%20Bias%20in%20Educational%20LLMs">Discuss this project <span class="arrow">→</span></a></p>
+  </div>
+</details>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta reveal">
+          <span class="eyebrow" style="justify-content:center">Work with us</span>
+          <h2 style="margin-top:.7rem">Interested in our research themes?</h2>
+          <p>We welcome PhD students and collaborators who want to push these questions forward.</p>
+          <div class="cta__actions">
+            <a class="btn btn--primary" href="mailto:m.cukurova@ucl.ac.uk">m.cukurova@ucl.ac.uk</a>
+            <a class="btn btn--ghost" href="publications.html">See recent publications <span class="arrow">→</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a class="brand" href="index.html">
+            <img src="images/a2aabb_ce981aacd96a4968916def9b29ad0d88~mv2.avif" alt="UCL Knowledge Lab logo" />
+            <span class="brand__text"><small>UCL Knowledge Lab</small><span class="brand__name">UCL<b>AIT</b></span></span>
+          </a>
+          <p>UCL Analytics &amp; AI for Learning Team — part of UCL Knowledge Lab, University College London, investigating analytics and AI in the service of human learning.</p>
+        </div>
+        <div>
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="research.html">Research themes</a></li>
+            <li><a href="publications.html">Publications</a></li>
+            <li><a href="news.html">News</a></li>
+            <li><a href="reading-club.html">Reading Club/Workshop</a></li>
+            <li><a href="social.html">Social</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="mailto:m.cukurova@ucl.ac.uk">m.cukurova@ucl.ac.uk</a></li>
+            <li><a href="https://iris.ucl.ac.uk/iris/browse/profile?upi=MCUKU85" target="_blank" rel="noopener">Director profile (IRIS)</a></li>
+            <li><a href="https://www.ucl.ac.uk" target="_blank" rel="noopener">University College London</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 UCLAIT · UCL Analytics &amp; AI for Learning Team.</span>
+        <span>For enquiries: <a class="mono-mail muted-link" href="mailto:m.cukurova@ucl.ac.uk">m.cukurova@ucl.ac.uk</a></span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,39 @@
+name: Update publications
+
+# Refreshes data/publications.csv from OpenAlex and commits any changes.
+on:
+  schedule:
+    - cron: "0 6 * * 1"          # every Monday at 06:00 UTC
+  workflow_dispatch: {}           # ...and a manual "Run workflow" button in the Actions tab
+
+permissions:
+  contents: write                 # allow the job to commit the updated CSV
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Regenerate publications.csv from OpenAlex
+        env:
+          MAILTO: m.cukurova@ucl.ac.uk
+        run: python3 scripts/update_publications.py
+
+      - name: Commit changes if the list changed
+        run: |
+          if git diff --quiet -- data/publications.csv; then
+            echo "No change in publications.csv — nothing to commit."
+          else
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/publications.csv
+            git commit -m "chore: auto-update publications from OpenAlex"
+            git push
+          fi

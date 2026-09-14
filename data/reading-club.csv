@@ -1,0 +1,40 @@
+year,date,chair,paper_title,paper_url
+2026,May-26,Junyuan Liang,Utilizing Multimodal Large Language Models for Video Analysis of Posture in Studying Collaborative Learning: A Case Study,https://learning-analytics.info/index.php/JLA/article/view/8595
+2026,Mar-26,Yildiz Uzun,Enhancing Self-Directed Learning and Python Mastery through Integration of a Large Language Model and Learning Analytics Dashboard,https://bera-journals.onlinelibrary.wiley.com/doi/10.1111/bjet.70005
+2025,Jan-25,Wicaksono Febriantoro,Enhancing Legal Writing Skills: The Impact of Formative Feedback in a Hybrid Intelligence Learning Environment,https://bera-journals.onlinelibrary.wiley.com/doi/10.1111/bjet.13529
+2025,Feb-25,Zoe Li,Comparing human-made and AI-generated teaching videos: An experimental study on learning effects,https://doi.org/10.1016/j.compedu.2024.105164
+2025,Mar-25,Kester Wong,Effect of adaptable and non-adaptable collaboration scripts through conversational agents on students' engagement in online collaborative learning,https://link.springer.com/article/10.1007/s11423-025-10448-3
+2025,Apr-25,Yishan Du,When combinations of humans and AI are useful: A systematic review and meta-analysis,https://www.nature.com/articles/s41562-024-02024-1
+2025,May-25,Xinyuan Hao,Influence of AI-driven educational tools on critical thinking dispositions among university students in Malaysia: a study of key factors and correlations,https://link.springer.com/article/10.1007/s10639-024-13150-8
+2025,Jun-25,Qi Zhou,"Lawrence, L., Mercier, E., Parks, T. T., Bosch, N., & Paquette, L. (2024). Accuracy and effectiveness of an orchestration tool on instructors' interventions and groups' collaboration. <em>Computers and Education Open, 7,</em> 100203.",https://www.sciencedirect.com/science/article/pii/S2666557324000430
+2025,Jul-25,Zoe Li,Your Brain on ChatGPT: Accumulation of Cognitive Debt when Using an AI Assistant for Essay Writing Task,https://arxiv.org/abs/2506.08872
+2025,Sep-25,Mutluhan Yilmaz,Assessing student perceptions and use of instructor versus AI-generated feedback,https://bera-journals.onlinelibrary.wiley.com/doi/epdf/10.1111/bjet.13558
+2025,Oct-25,Junyuan Liang,Zooming in: The role of nonverbal behavior in sensing the quality of collaborative group engagement,https://link.springer.com/article/10.1007/s11412-024-09422-7
+2025,Nov-25,Yifei Gao,In GenAI we trust: An investigation of university students' reliance on and resistance to generative AI in language learning,https://educationaltechnologyjournal.springeropen.com/articles/10.1186/s41239-025-00547-9
+2025,Dec-25,Yildiz Uzun,,
+2024,Jan-24,Nandu Shibu,Impact of AI assistance on student agency,https://www.sciencedirect.com/science/article/pii/S0360131523002440
+2024,Feb-24,Zoe Li,Evaluating the Effects of Educational Multimedia Design Principles on Cognitive Load Using EEG Signal Analysis,https://link.springer.com/article/10.1007/s10639-022-11283-2
+2024,Mar-24,Kester Wong,Improving collaborative problem-solving skills via automated feedback and scaffolding: a quasi-experimental study with CPSCoach 2.0,https://link.springer.com/article/10.1007/s11257-023-09387-6
+2024,Apr-24,Wannapon Suraworachet,Computational Modelling of Collaborative Discourse to Enable Feedback and Reflection in Middle School Classrooms,https://dl.acm.org/doi/10.1145/3636555.3636917
+2024,May-24,Xinyuan Hao,"Empowering ChatGPT with guidance mechanism in blended learning: effect of self-regulated learning, higher-order thinking skills, and knowledge construction",https://educationaltechnologyjournal.springeropen.com/articles/10.1186/s41239-024-00447-4
+2024,Jun-24,Qi Zhou,"Impacts of three approaches on collaborative knowledge building, group performance, behavioural engagement, and socially shared regulation in online collaborative learning",https://onlinelibrary.wiley.com/doi/abs/10.1111/jcal.12860
+2024,Jul-24,Yildiz Uzun,Feedback literacy matters: unlocking the potential of learning analytics-based feedback,https://www.tandfonline.com/doi/full/10.1080/02602938.2024.2367587
+2024,Sep-24,Mutluhan Yilmaz,"What changes, and for whom? A study of the impact of learning analytics-based process feedback in a large course",https://www.sciencedirect.com/science/article/pii/S095947521830450X
+2023,Feb-23,Yildiz Uzun,Narrowing the feedback gap: Examining student engagement with personalised and actionable feedback messages,https://www.learning-analytics.info/index.php/JLA/article/view/7184
+2023,Mar-23,Qi Zhou,How to Build More Generalizable Models for Collaboration Quality? Lessons Learned from Exploring Multi-Context Audio-Log Datasets using Multimodal Learning Analytics,https://dl.acm.org/doi/abs/10.1145/3576050.3576144
+2023,Apr-23,Wannapon Suraworachet,Do Speech-Based Collaboration Analytics Generalize Across Task Contexts?,https://dl.acm.org/doi/10.1145/3506860.3506894
+2023,May-23,Xinyuan Hao,It is about timing: Network prestige in asynchronous online discussions,https://onlinelibrary.wiley.com/doi/epdf/10.1111/jcal.12355
+2023,Jun-23,Haifa Al-Wahaby,Unpacking Instructors' Analytics Use: Two Distinct Profiles for Informing Teaching,https://dl.acm.org/doi/10.1145/3506860.3506905
+2023,Jul-23,Daniel Leiker,,
+2023,Sep-23,Mutluhan Yilmaz,Using trace data to enhance students' self-regulation: A learning analytics perspective,https://www.sciencedirect.com/science/article/abs/pii/S1096751622000112
+2023,Oct-23,Madiha Khan,,
+2023,Nov-23,Wicaksono Febriantoro,Unpacking the relationship between existing and new measures of physiological synchrony and collaborative learning: a mixed methods study,https://link.springer.com/article/10.1007/s11412-020-09318-2
+2022,02-Mar-22,Qi Zhou,Storytelling With Learner Data: Guiding Student Reflection on Multimodal Team Data,https://ieeexplore.ieee.org/document/9632388
+2022,06-Apr-22,Wannapon Suraworachet,Combining factor analysis with writing analytics for the formative assessment of written reflection,https://www.sciencedirect.com/science/article/pii/S0747563221000558
+2022,04-May-22,Xinyuan Hao,Understanding the Design Space of AI-Mediated Social Interaction in Online Learning: Challenges and Opportunities,https://dl.acm.org/doi/10.1145/3512977
+2022,01-Jun-22,Haifa Al-Wahaby,"Scalability, Sustainability, and Ethicality of Multimodal Learning Analytics",https://dl.acm.org/doi/abs/10.1145/3506860.3506862
+2022,06-Jul-22,Daniel Leiker,Explainable Artificial Intelligence in Education,https://www.sciencedirect.com/science/article/pii/S2666920X22000297
+2022,07-Sep-22,Ali Chaudhry,A Transparency Index Framework for AI in Education,https://arxiv.org/abs/2206.03220
+2022,05-Oct-22,Madiha Khan,Self-Regulated Learning in Learning Environments With Pedagogical Agents That Interact in Natural Language,https://www.tandfonline.com/doi/abs/10.1080/00461520.2010.515933
+2022,02-Nov-22,Veronica Cucuiat,,
+2022,07-Dec-22,Wicaksono Febriantoro,Unpacking the relationship between existing and new measures of physiological synchrony and collaborative learning: a mixed methods study,https://link.springer.com/article/10.1007/s11412-020-09318-2
