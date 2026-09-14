@@ -167,6 +167,19 @@ Columns: `year, date, chair, paper_title, paper_url`
 | `paper_title` | no | The paper title (or a full citation). May include `<em>…</em>`. |
 | `paper_url` | no | Link to the paper. |
 
+**APA citations (automatic):** each row also has an **`apa`** column that holds a
+formatted APA citation with the DOI as a clickable link. **You don't fill this in** —
+you just add `paper_title` + `paper_url`, then run:
+
+```bash
+python3 scripts/update_reading_club.py
+```
+
+It looks up each paper on Crossref (by DOI, else by title) and fills `apa`. Anything it
+can't resolve falls back to the linked title, so nothing is ever lost. The page shows
+`apa` when present. (If you'd rather hand-write a citation for one row, just type it into
+that row's `apa` cell — the script only overwrites when it finds a match.)
+
 **Grouping & order:** meetings are grouped by `year` in the order the years first
 appear in the file (currently newest year first). Within a year they appear in row
 order. To start a new year, just add rows with that new `year` value at the top.

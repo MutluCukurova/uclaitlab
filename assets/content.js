@@ -170,9 +170,12 @@
     el.innerHTML = order.map(function (y) {
       var items = byYear[y].map(function (r) {
         var title = r[opts.title], url = opts.url ? r[opts.url] : '';
-        var paper = url
-          ? '<div class="rc-paper"><a href="' + esc(url) + '" target="_blank" rel="noopener">' + (title || url) + '</a></div>'
-          : '<div class="rc-paper' + (title ? '' : ' tbd') + '">' + (title || 'To be announced') + '</div>';
+        var apa = opts.apa ? r[opts.apa] : '';
+        var paper = apa
+          ? '<div class="rc-paper">' + apa + '</div>'
+          : url
+            ? '<div class="rc-paper"><a href="' + esc(url) + '" target="_blank" rel="noopener">' + (title || url) + '</a></div>'
+            : '<div class="rc-paper' + (title ? '' : ' tbd') + '">' + (title || 'To be announced') + '</div>';
         return '<li class="rc-item"><div class="rc-meta"><span class="rc-date">' + esc(r.date) +
           '</span><span class="rc-chair">' + esc(r[opts.chair]) + '</span></div>' + paper + '</li>';
       }).join('');
@@ -343,7 +346,7 @@
       ['news-root',     'data/news.csv',           renderNews,   'news'],
       ['dates-root',    'data/important-dates.csv', renderDates,  'important dates'],
       ['team-root',     'data/team.csv',           renderTeam,   'the team'],
-      ['rc-root',       'data/reading-club.csv',   function (el, rows) { renderYearGroups(el, rows, { chair: 'chair', title: 'paper_title', url: 'paper_url' }); }, 'the reading-club schedule'],
+      ['rc-root',       'data/reading-club.csv',   function (el, rows) { renderYearGroups(el, rows, { chair: 'chair', title: 'paper_title', url: 'paper_url', apa: 'apa' }); }, 'the reading-club schedule'],
       ['workshop-root', 'data/workshop.csv',       function (el, rows) { renderYearGroups(el, rows, { chair: 'chair', title: 'workshop_title' }); }, 'the workshop list'],
       ['social-root',   'data/social.csv',         renderSocial, 'social events'],
       ['gallery-root',  'data/life-in-the-lab.csv', renderGallery, 'the gallery']
