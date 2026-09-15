@@ -1,2 +1,9 @@
 .DS_Store
 **/.DS_Store
+
+# Local-only: photos not referenced by any CSV/page (kept off the repo)
+/_unused-photos/
+
+# HEIC never renders in browsers — convert to jpg before referencing
+*.heic
+*.HEIC
