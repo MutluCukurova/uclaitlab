@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap" />
   <style>
     :root{ --bg:#0a0b12; --bg2:#111524; --land:#222842; --land-stroke:#2f375a;
-      --text:#eef0f7; --muted:#9aa2bd; --accent:#7c5cff; --accent2:#22d3ee; --panel:#161a2b; --border:#2a3150; }
+      --text:#eef0f7; --muted:#9aa2bd; --accent:#7c5cff; --accent2:#22d3ee; --grey:#8b93a7; --panel:#161a2b; --border:#2a3150; }
     *{box-sizing:border-box;}
     html,body{margin:0;min-height:100%;background:radial-gradient(1200px 700px at 70% -10%, #1a1f3a 0%, var(--bg) 55%);
       color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
@@ -21,37 +21,36 @@
     h1{font-family:"Space Grotesk";font-weight:700;font-size:clamp(1.8rem,4vw,2.8rem);margin:.5rem 0 .3rem;}
     h1 .g{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
     header.h p{color:var(--muted);margin:.2rem auto 0;max-width:46ch;font-size:.95rem;}
-    .badge{display:inline-block;margin-top:.9rem;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:#ffcf6b;border:1px solid #ffcf6b55;border-radius:999px;padding:.2rem .7rem;}
     .mapwrap{position:relative;width:100%;aspect-ratio:2/1;margin:1.4rem auto 0;
       background:linear-gradient(180deg, rgba(124,92,255,.05), rgba(34,211,238,.03));
       border:1px solid var(--border);border-radius:20px;overflow:visible;}
     svg.world{position:absolute;inset:0;width:100%;height:100%;display:block;}
-    svg.world path{fill:var(--land);stroke:var(--land-stroke);stroke-width:.4;
-      stroke-linejoin:round;vector-effect:non-scaling-stroke;}
-    .pin{position:absolute;transform:translate(-50%,-50%);width:16px;height:16px;border:0;padding:0;
-      border-radius:50%;cursor:pointer;background:radial-gradient(circle at 35% 30%, #fff, var(--accent) 60%);
-      box-shadow:0 0 0 4px rgba(124,92,255,.22), 0 0 14px 2px rgba(124,92,255,.5);z-index:2;}
-    .pin.hub{background:radial-gradient(circle at 35% 30%, #fff, var(--accent2) 60%);
-      box-shadow:0 0 0 5px rgba(34,211,238,.22), 0 0 16px 3px rgba(34,211,238,.55);width:20px;height:20px;}
-    .pin::before{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--accent);
-      opacity:.7;animation:pulse 2.4s ease-out infinite;}
-    .pin.hub::before{border-color:var(--accent2);}
-    @keyframes pulse{0%{transform:scale(.6);opacity:.8}100%{transform:scale(2.6);opacity:0}}
-    .pin:hover,.pin:focus-visible{outline:none;z-index:5;}
-    .card{position:absolute;left:50%;bottom:150%;transform:translate(-50%,6px);width:172px;
-      background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:.7rem;text-align:center;
-      opacity:0;pointer-events:none;transition:opacity .18s ease, transform .18s ease;
-      box-shadow:0 14px 34px rgba(0,0,0,.5);z-index:6;}
+    svg.world path{fill:var(--land);stroke:var(--land-stroke);stroke-width:.4;stroke-linejoin:round;vector-effect:non-scaling-stroke;}
+    .pin{position:absolute;transform:translate(-50%,-50%);width:15px;height:15px;border:0;padding:0;border-radius:50%;cursor:pointer;
+      background:radial-gradient(circle at 35% 30%, #fff, var(--accent) 60%);
+      box-shadow:0 0 0 3px rgba(124,92,255,.22), 0 0 12px 2px rgba(124,92,255,.5);z-index:2;}
+    .pin.alum{background:radial-gradient(circle at 35% 30%, #fff, var(--grey) 60%);
+      box-shadow:0 0 0 3px rgba(139,147,167,.2), 0 0 10px 1px rgba(139,147,167,.4);}
+    .pin::before{content:"";position:absolute;inset:-3px;border-radius:50%;border:2px solid var(--accent);opacity:.6;animation:pulse 2.6s ease-out infinite;}
+    .pin.alum::before{display:none;}
+    @keyframes pulse{0%{transform:scale(.6);opacity:.7}100%{transform:scale(2.6);opacity:0}}
+    .pin:hover,.pin:focus-visible{outline:none;z-index:9;}
+    .card{position:absolute;left:50%;bottom:150%;transform:translate(-50%,6px);width:172px;background:var(--panel);
+      border:1px solid var(--border);border-radius:14px;padding:.7rem;text-align:center;opacity:0;pointer-events:none;
+      transition:opacity .18s ease, transform .18s ease;box-shadow:0 14px 34px rgba(0,0,0,.5);z-index:10;}
     .pin:hover .card,.pin:focus-visible .card{opacity:1;transform:translate(-50%,0);}
     .card.below{bottom:auto;top:150%;}
-    .card img{width:82px;height:82px;border-radius:50%;object-fit:cover;border:2px solid var(--accent2);display:block;margin:0 auto .5rem;background:var(--bg2);}
+    .card img{width:82px;height:82px;border-radius:50%;object-fit:cover;border:2px solid var(--accent2);display:block;margin:0 auto .5rem;background:var(--bg2);pointer-events:none;}
+    .pin.alum .card img{border-color:var(--grey);}
     .card .nm{display:block;font-family:"Space Grotesk";font-weight:600;font-size:.92rem;line-height:1.2;}
-    .card .pl{display:block;color:var(--muted);font-size:.78rem;margin-top:.15rem;}
-    .card img{pointer-events:none;}
+    .card .rl{display:block;color:var(--muted);font-size:.72rem;margin-top:.1rem;}
+    .card .pl{display:block;color:var(--accent2);font-size:.78rem;margin-top:.25rem;}
+    .pin.alum .card .pl{color:var(--grey);}
     .legend{display:flex;gap:1.4rem;justify-content:center;margin-top:1.6rem;color:var(--muted);font-size:.82rem;flex-wrap:wrap;}
     .legend span{display:inline-flex;align-items:center;gap:.45rem;}
     .dot{width:11px;height:11px;border-radius:50%;}
-    .dot.a{background:var(--accent2);} .dot.b{background:var(--accent);}
+    .dot.b{background:var(--accent);} .dot.grey{background:var(--grey);}
+    .note{text-align:center;color:var(--muted);font-size:.82rem;margin-top:.6rem;}
     @media (max-width:560px){ .card{width:140px;} .card img{width:64px;height:64px;} }
   </style>
 </head>
@@ -61,7 +60,6 @@
       <div class="eyebrow">UCL Analytics &amp; AI for Learning Team</div>
       <h1>UCLAIT <span class="g">Around the World</span></h1>
       <p>One lab in London, many places called home. Hover a point to meet the person.</p>
-      <div class="badge" id="badge">Placeholder locations &amp; sample members — edit the list in map.html</div>
     </header>
     <div class="mapwrap" id="mapwrap">
       <svg class="world" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
@@ -69,47 +67,89 @@
       </svg>
     </div>
     <div class="legend">
-      <span><span class="dot a"></span> UCL Knowledge Lab (home)</span>
-      <span><span class="dot b"></span> Team member</span>
+      <span><span class="dot b"></span> Current member</span>
+      <span><span class="dot grey"></span> Alumni</span>
     </div>
+    <p class="note" id="note"></p>
   </div>
 
   <script>
-    /* ======================================================================
-       EDIT HERE — one entry per person.
-         name  : shown on the hover card
-         place : city/country shown under the name
-         photo : filename in images/team/  (same photos as the Team page)
-         lat,lng: decimal degrees (Google Maps right-click shows them)
-         hub   : true for the lab's home pin (optional)
-       Locations below are PLACEHOLDERS — set the real ones, then delete the
-       "Placeholder" badge line above if you like.
-       ====================================================================== */
-    var MEMBERS = [
-      { name:"Mutlu Cukurova", place:"London, UK", photo:"Mutlu_Cukurova_Profile_Photo.jpg", lat:51.5246, lng:-0.1181, hub:true },
-      { name:"Wannapon Suraworachet", place:"Bangkok, Thailand", photo:"a2aabb_fb4b975abde240dba0ce5b004bb3bc52~mv2.avif", lat:13.7563, lng:100.5018 },
-      { name:"Yildiz Uzun", place:"Ankara, Türkiye", photo:"a2aabb_0511f9c45039483c9e31f270d0b8808e~mv2.avif", lat:39.9334, lng:32.8597 },
-      { name:"Zoe Ruo-Yu Li", place:"Taipei, Taiwan", photo:"a2aabb_5943c70bc7f746808007112e7ea5bd7d~mv2.avif", lat:25.0330, lng:121.5654 },
-      { name:"Wicaksono Febriantoro", place:"Jakarta, Indonesia", photo:"a2aabb_596fdea6488f4e71b6a3a12e5ea28509~mv2.avif", lat:-6.2088, lng:106.8456 },
-      { name:"Yishan Du", place:"Beijing, China", photo:"Yishan.jpeg", lat:39.9042, lng:116.4074 }
-    ];
-
-    var wrap = document.getElementById('mapwrap');
+    /* Members come from data/team.csv (the "Location" column). Add a location there and
+       the pin appears here automatically. Locations are geocoded with the table below —
+       add any missing country/city to it. */
+    var PLACES = {
+      "london, uk":[51.5074,-0.1278], "cambridge, uk":[52.2053,0.1218],
+      "shenzhen, china":[22.5431,114.0579], "beijing, china":[39.9042,116.4074],
+      "bangkok, thailand":[13.7563,100.5018]
+    };
+    var COUNTRIES = {
+      "uk":[54.0,-2.5], "united kingdom":[54.0,-2.5], "england":[52.5,-1.5],
+      "china":[35.8617,104.1954], "thailand":[15.87,100.9925], "indonesia":[-6.2088,106.8456],
+      "turkey":[39.0,35.24], "türkiye":[39.0,35.24], "singapore":[1.3521,103.8198],
+      "taiwan":[23.6978,120.9605], "saudi arabia":[23.88,45.07], "usa":[39.83,-98.58],
+      "united states":[39.83,-98.58], "us":[39.83,-98.58],
+      "india":[20.5937,78.9629], "germany":[51.16,10.45], "france":[46.22,2.21],
+      "spain":[40.46,-3.74], "italy":[41.87,12.56], "japan":[36.2,138.25],
+      "south korea":[35.9,127.76], "korea":[35.9,127.76], "australia":[-25.27,133.77],
+      "canada":[56.13,-106.34], "brazil":[-14.23,-51.92], "netherlands":[52.13,5.29],
+      "norway":[60.47,8.46], "malaysia":[4.21,101.97], "pakistan":[30.37,69.34],
+      "nigeria":[9.08,8.67], "egypt":[26.82,30.8], "greece":[39.07,21.82],
+      "vietnam":[14.05,108.27], "philippines":[12.87,121.77]
+    };
+    function geo(loc){
+      var k=(loc||"").trim().toLowerCase(); if(!k) return null;
+      if(PLACES[k]) return PLACES[k];
+      var country=k.indexOf(",")>=0 ? k.split(",").pop().trim() : k;
+      if(COUNTRIES[country]) return COUNTRIES[country];
+      if(COUNTRIES[k]) return COUNTRIES[k];
+      return null;
+    }
+    /* tiny CSV parser (quotes + commas) */
+    function parseCSV(t){t=t.replace(/^﻿/,"");var rows=[],row=[],f="",i=0,q=false;
+      while(i<t.length){var c=t[i];
+        if(q){ if(c=='"'){ if(t[i+1]=='"'){f+='"';i+=2;continue;} q=false;i++;continue;} f+=c;i++;continue;}
+        if(c=='"'){q=true;i++;continue;}
+        if(c==','){row.push(f);f="";i++;continue;}
+        if(c=='\r'){i++;continue;}
+        if(c=='\n'){row.push(f);rows.push(row);row=[];f="";i++;continue;}
+        f+=c;i++;}
+      if(f.length||row.length){row.push(f);rows.push(row);} return rows;}
     function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c];});}
-    MEMBERS.forEach(function(m){
-      if(typeof m.lat!=='number'||typeof m.lng!=='number') return;
-      var xp=(m.lng+180)/360*100, yp=(90-m.lat)/180*100;
-      var b=document.createElement('button');
-      b.className='pin'+(m.hub?' hub':'');
-      b.style.left=xp+'%'; b.style.top=yp+'%';
-      b.setAttribute('aria-label', m.name+' — '+(m.place||''));
-      b.innerHTML='<span class="card'+(yp<26?' below':'')+'">'+
-        '<img src="images/team/'+esc(m.photo)+'" alt="'+esc(m.name)+'" loading="lazy" />'+
-        '<span class="nm">'+esc(m.name)+'</span>'+
-        (m.place?'<span class="pl">'+esc(m.place)+'</span>':'')+'</span>';
-      wrap.appendChild(b);
-    });
-    if(!MEMBERS.some(function(m){return /placeholder|example/i.test(m.name);})){/* keep badge; locations still placeholders */}
+
+    var wrap=document.getElementById('mapwrap');
+    fetch('data/team.csv',{cache:'no-cache'}).then(function(r){return r.text();}).then(function(txt){
+      var rows=parseCSV(txt).filter(function(r){return r.length&&r.some(function(c){return c.trim()!=='';});});
+      var head=rows.shift().map(function(h){return h.trim().toLowerCase();});
+      var col=function(name){return head.indexOf(name);};
+      var iLoc=col('location'), iName=col('name'), iImg=col('image'), iRole=col('role'), iGrp=col('group');
+      var members=[];
+      rows.forEach(function(r){
+        var loc=(r[iLoc]||'').trim(); var c=geo(loc); if(!c) return;
+        members.push({name:r[iName], photo:r[iImg], role:r[iRole], group:r[iGrp], place:loc, lat:c[0], lng:c[1]});
+      });
+      // jitter members sharing the same resolved point so pins don't fully overlap
+      var groups={};
+      members.forEach(function(m){var k=m.lat.toFixed(2)+','+m.lng.toFixed(2);(groups[k]=groups[k]||[]).push(m);});
+      Object.keys(groups).forEach(function(k){var g=groups[k];var n=g.length;
+        g.forEach(function(m,i){ if(n>1){var a=i/n*2*Math.PI, r=4.2; m.lng+=Math.cos(a)*r; m.lat+=Math.sin(a)*r*0.65;} });});
+      members.forEach(function(m){
+        var xp=(m.lng+180)/360*100, yp=(90-m.lat)/180*100;
+        var alum=/alumni/i.test(m.group||'');
+        var b=document.createElement('button');
+        b.className='pin'+(alum?' alum':'');
+        b.style.left=Math.max(1,Math.min(99,xp))+'%'; b.style.top=Math.max(2,Math.min(98,yp))+'%';
+        b.setAttribute('aria-label', m.name+' — '+m.place);
+        b.innerHTML='<span class="card'+(yp<26?' below':'')+'">'+
+          '<img src="images/team/'+esc(m.photo)+'" alt="'+esc(m.name)+'" loading="lazy" />'+
+          '<span class="nm">'+esc(m.name)+'</span>'+
+          (m.role?'<span class="rl">'+esc(m.role)+'</span>':'')+
+          '<span class="pl">'+esc(m.place)+'</span></span>';
+        wrap.appendChild(b);
+      });
+      var al=members.filter(function(m){return /alumni/i.test(m.group||'');}).length;
+      document.getElementById('note').textContent=members.length+' people mapped · '+(members.length-al)+' current, '+al+' alumni';
+    }).catch(function(e){ console.error(e);
+      document.getElementById('note').textContent='Could not load team data — run a local server (see README).'; });
   </script>
 </body>
 </html>
