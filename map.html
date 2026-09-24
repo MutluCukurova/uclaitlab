@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UCLAIT — Where We Are</title>
+  <meta name="description" content="A world map of UCLAIT team members." />
+  <meta name="robots" content="noindex" />
+  <!-- Leaflet (map library) from cdnjs, pinned -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"
+        integrity="sha512-h9FcoyWjHcOcmEVkxOfTLnmZFWIH0iZhZT1H2TbOq55xssQGEJHEaIm+PgoUaZbRvQTNTluNOEfb1ZRy6D3BOw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    :root { --bg:#0a0b0f; --panel:#14161d; --border:#262a35; --text:#e7e9ee; --muted:#9aa0ad; --accent:#7c5cff; --accent2:#22d3ee; }
+    * { box-sizing:border-box; }
+    html, body { margin:0; height:100%; background:var(--bg); color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+    #map { position:absolute; inset:0; background:var(--bg); }
+    .overlay { position:absolute; top:1rem; left:1rem; z-index:1000; max-width:min(340px,80vw);
+      background:rgba(20,22,29,.9); border:1px solid var(--border); border-radius:14px;
+      padding:1rem 1.15rem; backdrop-filter:blur(6px); box-shadow:0 10px 30px rgba(0,0,0,.4); }
+    .overlay h1 { margin:0 0 .3rem; font-size:1.15rem; }
+    .overlay h1 b { background:linear-gradient(90deg,var(--accent),var(--accent2));
+      -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+    .overlay p { margin:.2rem 0 0; font-size:.85rem; color:var(--muted); line-height:1.5; }
+    .badge { display:inline-block; margin-top:.6rem; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase;
+      color:#ffcf6b; border:1px solid #ffcf6b55; border-radius:999px; padding:.15rem .55rem; }
+    .leaflet-popup-content { font-size:.9rem; }
+    .leaflet-popup-content .role { color:#555; font-size:.82rem; }
+    .leaflet-popup-content .place { color:#777; font-size:.8rem; margin-top:.15rem; }
+    .count { color:var(--accent2); font-weight:600; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div class="overlay">
+    <h1>Where in the world is <b>UCLAIT</b></h1>
+    <p>A map of our team — <span class="count" id="count">0</span> people across the globe.</p>
+    <p class="badge" id="demoBadge">Example data — edit the list in map.html</p>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"
+          integrity="sha512-puJW3E/qXDqYp9IfhAI54BJEaWIfloJ7JWs7OeD5i6ruC9JZL1gERT1wjtwXFlh7CjE7ZJ+/vcRZRkIYIb6p4g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    /* =======================================================================
+       EDIT HERE — one entry per person.
+       lat/lng are decimal degrees (look a city up on Google Maps: right-click →
+       the first two numbers are lat, lng). Remove the demo rows once you add real ones.
+       ======================================================================= */
+    var MEMBERS = [
+      { name: "UCL Knowledge Lab", role: "UCLAIT home", place: "London, UK", lat: 51.5246, lng: -0.1181, hub: true },
+      { name: "Example member", role: "PhD Researcher", place: "Istanbul, Türkiye", lat: 41.0082, lng: 28.9784 },
+      { name: "Example member", role: "PhD Researcher", place: "Bangkok, Thailand", lat: 13.7563, lng: 100.5018 },
+      { name: "Example member", role: "PhD Researcher", place: "Jakarta, Indonesia", lat: -6.2088, lng: 106.8456 },
+      { name: "Example member", role: "PhD Researcher", place: "Beijing, China", lat: 39.9042, lng: 116.4074 },
+      { name: "Example member", role: "PhD Researcher", place: "Taipei, Taiwan", lat: 25.0330, lng: 121.5654 }
+    ];
+
+    var map = L.map('map', { worldCopyJump: true, minZoom: 2 }).setView([25, 15], 2);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    var pts = [];
+    MEMBERS.forEach(function (m) {
+      if (typeof m.lat !== 'number' || typeof m.lng !== 'number') return;
+      var marker = L.circleMarker([m.lat, m.lng], {
+        radius: m.hub ? 10 : 7,
+        color: '#fff', weight: 1.5,
+        fillColor: m.hub ? '#22d3ee' : '#7c5cff', fillOpacity: 0.9
+      }).addTo(map);
+      var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+        return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); };
+      marker.bindPopup('<strong>' + esc(m.name) + '</strong>' +
+        (m.role ? '<div class="role">' + esc(m.role) + '</div>' : '') +
+        (m.place ? '<div class="place">' + esc(m.place) + '</div>' : ''));
+      pts.push([m.lat, m.lng]);
+    });
+
+    document.getElementById('count').textContent = MEMBERS.length;
+    // Hide the "example data" badge automatically once no rows are labelled "Example member".
+    if (!MEMBERS.some(function (m) { return /example/i.test(m.name); })) {
+      document.getElementById('demoBadge').style.display = 'none';
+    }
+    if (pts.length) map.fitBounds(pts, { padding: [60, 60], maxZoom: 5 });
+  </script>
+</body>
+</html>
