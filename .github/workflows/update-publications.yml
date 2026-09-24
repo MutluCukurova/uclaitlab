@@ -3,7 +3,7 @@ name: Update publications
 # Refreshes data/publications.csv from OpenAlex and commits any changes.
 on:
   schedule:
-    - cron: "0 6 * * 1"          # every Monday at 06:00 UTC
+    - cron: "0 6 1 * *"          # monthly: the 1st of each month at 06:00 UTC
   workflow_dispatch: {}           # ...and a manual "Run workflow" button in the Actions tab
 
 permissions:

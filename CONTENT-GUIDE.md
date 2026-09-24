@@ -319,7 +319,7 @@ filenames — that's fine; only new ones need the convention.
 scholarly database).
 
 **How it works:** a scheduled job — `.github/workflows/update-publications.yml` — runs
-every **Monday** on GitHub's servers. It runs `scripts/update_publications.py`, which
+on the **1st of each month** on GitHub's servers. It runs `scripts/update_publications.py`, which
 fetches the author's most recent works, formats them as citations, splits them into
 **journal** vs **conference/preprint**, writes `data/publications.csv`, and commits it.
 Your live site then shows the refreshed list. **Free** (GitHub Actions is free for
@@ -328,9 +328,9 @@ public repos), and needs no upkeep.
 **One-time GitHub setup (after you push the repo):**
 1. Push the project to a GitHub repo and turn on **GitHub Pages** (Settings → Pages).
 2. Settings → **Actions → General → Workflow permissions** → choose **“Read and write
-   permissions”** and Save. (This lets the weekly job commit the updated CSV.)
+   permissions”** and Save. (This lets the monthly job commit the updated CSV.)
 3. Optional: go to the **Actions** tab → *Update publications* → **Run workflow** to
-   trigger it once immediately instead of waiting for Monday.
+   trigger it once immediately instead of waiting for the 1st.
 
 **To change what's pulled**, edit the top of `scripts/update_publications.py`:
 - `AUTHOR_IDS` — the OpenAlex author ID(s). Currently Mutlu Cukurova (`A5010726815`).

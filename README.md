@@ -41,7 +41,7 @@ All asset paths are relative, so it works under the `…/<repo>/` subpath with n
 
 ## Auto-updating & refresh scripts
 
-- **Publications** (`data/publications.csv`) refresh **automatically every Monday** via a
+- **Publications** (`data/publications.csv`) refresh **automatically once a month** via a
   GitHub Action ([.github/workflows/update-publications.yml](.github/workflows/update-publications.yml)),
   which pulls the latest works from [OpenAlex](https://openalex.org) and splits them into
   journal vs conference/preprint. Run it on demand from the **Actions** tab → *Update
