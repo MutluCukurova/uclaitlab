@@ -1,93 +1,65 @@
 # UCLAIT — UCL Analytics & AI for Learning Team
 
-A static website (plain HTML/CSS/JS — no build step, no framework). Most content is
-**data-driven from CSV files** in [`data/`](data/), so it can be updated by editing a
-spreadsheet rather than touching HTML.
+A static website (plain HTML/CSS/JS, no build step). Most content is **data-driven from
+CSV files** in [`data/`](data/), so it can be updated by editing a spreadsheet rather
+than touching HTML. A small script, `assets/content.js`, reads each CSV on page load and
+builds the page.
 
-- **Editing content:** see **[CONTENT-GUIDE.md](CONTENT-GUIDE.md)** — the full, friendly
-  guide to every CSV (team, news, reading club/workshops, social, gallery, important
-  dates, publications) and the image rules.
+## Editing content
 
----
+Edit the CSV in `data/` (one row = one entry) and commit it:
+
+| File | Feeds |
+|---|---|
+| `team.csv` | Team (`Location` column also drives `map.html`) |
+| `news.csv` | News |
+| `reading-club.csv` + `workshop.csv` | Reading Club / Workshop |
+| `social.csv` | Social — termly events |
+| `life-in-the-lab.csv` | Social — photo gallery |
+| `important-dates.csv` | Home — important dates |
+| `publications.csv` | Publications (auto-generated — see below) |
+
+Notes: put images in the matching `images/` subfolder (`team/`, `news/`, `social/`) and
+reference just the filename; filenames are **case-sensitive** on GitHub; save CSVs as
+**CSV UTF-8**. Sections auto-sort by date, so row order doesn't matter.
 
 ## Preview locally
 
-The CSV-driven pages must be **served over http** — opening the `.html` files directly
-(double-click / `file://`) will show empty sections because browsers block local file
-reads that way.
+The CSV pages must be **served over http** (opening the files directly won't load the
+CSVs). From this folder:
 
-- **Easiest:** double-click **`preview.command`** — it starts a small server and opens
-  your browser. Keep its Terminal window open while previewing; close it to stop.
-- **Manual:** from this folder run `python3 -m http.server 8000`, then open
-  <http://localhost:8000>.
-
----
-
-## Deploy to GitHub Pages
-
-1. Create a repo on GitHub and push:
-   ```bash
-   git remote add origin https://github.com/<username>/<repo>.git
-   git push -u origin main
-   ```
-2. **Settings → Pages → Source: "Deploy from a branch" → `main` / `(root)` → Save.**
-   The site goes live at `https://<username>.github.io/<repo>/` within ~1 minute.
-3. **Settings → Actions → General → Workflow permissions → "Read and write
-   permissions" → Save.** (Lets the publications auto-update commit its changes — below.)
-
-All asset paths are relative, so it works under the `…/<repo>/` subpath with no changes.
-
----
-
-## Auto-updating & refresh scripts
-
-- **Publications** (`data/publications.csv`) refresh **automatically once a month** via a
-  GitHub Action ([.github/workflows/update-publications.yml](.github/workflows/update-publications.yml)),
-  which pulls the latest works from [OpenAlex](https://openalex.org) and splits them into
-  journal vs conference/preprint. Run it on demand from the **Actions** tab → *Update
-  publications* → **Run workflow**, or locally:
-  ```bash
-  python3 scripts/update_publications.py
-  ```
-- **Reading club APA citations** (`data/reading-club.csv`, the `apa` column) are generated
-  from each paper's DOI/link via Crossref. After adding papers (`paper_title` +
-  `paper_url`), run:
-  ```bash
-  python3 scripts/update_reading_club.py
-  ```
-
-Both scripts need Python 3 and internet access; no API keys.
-
----
-
-## Project structure
-
-```
-index.html  team.html  research.html  publications.html
-news.html   reading-club.html  social.html
-assets/
-  styles.css      design system (one shared stylesheet)
-  main.js         nav, theme toggle, scroll reveal, tabs
-  content.js      renders the CSV-driven sections
-data/             the editable content (one row = one entry) — see CONTENT-GUIDE.md
-  team.csv  news.csv  reading-club.csv  workshop.csv
-  social.csv  life-in-the-lab.csv  important-dates.csv  publications.csv
-images/           team/  news/  social/  (+ the shared logo in the root)
-scripts/          update_publications.py  update_reading_club.py
-.github/workflows/update-publications.yml
-CONTENT-GUIDE.md  how to add/edit content
-preview.command   double-click to preview locally
+```bash
+python3 -m http.server 8000
 ```
 
-Photos not referenced by any CSV/page are kept locally in `_unused-photos/` (gitignored,
-not deployed). HEIC files are gitignored — convert to JPG before referencing, since
-browsers can't display HEIC.
+Then open <http://localhost:8000>.
 
----
+## Deploy (GitHub Pages)
 
-## Images — quick rules
+1. Push to a GitHub repo, then **Settings → Pages → Deploy from a branch → `main` /
+   `(root)`**. Live at `https://<user>.github.io/<repo>/`.
+2. **Settings → Actions → General → Workflow permissions → “Read and write”** so the
+   publications job can commit its updates.
 
-Put photos in the matching subfolder and reference **just the filename** in the CSV:
-`team.csv → images/team/`, `news.csv → images/news/`, `social.csv` &
-`life-in-the-lab.csv → images/social/`. Filenames are **case-sensitive on GitHub**, and
-save CSVs as **CSV UTF-8**. Full details in [CONTENT-GUIDE.md](CONTENT-GUIDE.md).
+Paths are relative, so it works under the `…/<repo>/` subpath with no changes.
+
+## Automation
+
+- **Publications** (`data/publications.csv`) refresh **monthly** (1st of the month) via
+  [.github/workflows/update-publications.yml](.github/workflows/update-publications.yml),
+  pulling from [OpenAlex](https://openalex.org). Run on demand from the Actions tab, or
+  locally: `python3 scripts/update_publications.py`.
+- **Reading-club APA citations** (`data/reading-club.csv`, `apa` column) are generated
+  from each paper's DOI/link via Crossref: `python3 scripts/update_reading_club.py`.
+
+## Structure
+
+```
+*.html              pages (index, team, research, publications, news, reading-club, social)
+map.html            standalone "team around the world" infographic (not linked from nav)
+assets/             styles.css, main.js, content.js
+data/               editable CSV content
+images/             team/  news/  social/  research/  (+ shared logo in the root)
+scripts/            update_publications.py, update_reading_club.py
+.github/workflows/  update-publications.yml
+```

@@ -7,3 +7,9 @@
 # HEIC never renders in browsers — convert to jpg before referencing
 *.heic
 *.HEIC
+
+# Internal docs / helpers — kept locally, not part of the public site
+DEPLOY.md
+CONTENT-GUIDE.md
+localize_images.sh
+preview.command
