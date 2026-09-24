@@ -58,6 +58,13 @@ it** (a `file://` security restriction). So:
 comma, a quote, or a link, wrap the whole cell in double quotes `"…"`. To put a
 literal `"` inside, double it (`""`). Spreadsheet apps do this automatically on save.
 
+**Row order doesn't matter — the site sorts by date automatically.** News, Social,
+the gallery and the Reading Club/Workshop schedule always display **newest first**;
+Important Dates displays **soonest first**; Publications is auto-sorted by its script.
+So you can add a new row anywhere (e.g. at the bottom) and it lands in the right place
+on the page. (This relies on the `date` column being fillable — keep using formats like
+`Jul-26`, `02-Mar-22`, or `16-20 September 2026`.)
+
 **⚠️ Save as "CSV UTF-8".** When saving from Excel, choose **"CSV UTF-8
 (Comma-delimited)"**, not plain "CSV". Plain CSV (especially on Mac) can save accents,
 apostrophes and dashes (`ç`, `’`, `–`, Turkish `ı`) in an old encoding that shows up on

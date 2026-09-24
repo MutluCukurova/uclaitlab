@@ -56,6 +56,28 @@
       .replace(/"/g, '&quot;');
   }
 
+  /* Turn a free-text date ("Jul-26", "02-Mar-22", "16-20 September 2026", "2026")
+     into a sortable number YYYYMMDD. Unparseable -> 0. Robust to mixed formats so
+     the CSV row order never has to be maintained by hand. */
+  var MONTHS = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6,
+                 jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
+  function dateKey(s) {
+    if (!s) return 0;
+    s = String(s);
+    var mo = 0, mm = s.toLowerCase().match(/(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/);
+    if (mm) mo = MONTHS[mm[1]];
+    var y = 0, y4 = s.match(/\b(20\d{2})\b/);
+    if (y4) y = +y4[1];
+    else { var y2 = s.match(/(\d{2})\s*$/); if (y2) y = 2000 + +y2[1]; }
+    var d = 1, dm = s.match(/\b([0-3]?\d)\b/);
+    if (dm) { var dv = +dm[1]; if (dv >= 1 && dv <= 31) d = dv; }
+    if (!y && !mo) return 0;
+    return y * 10000 + mo * 100 + d;
+  }
+  function byDateDesc(field) {
+    return function (a, b) { return dateKey(b[field]) - dateKey(a[field]); };
+  }
+
   function load(path) {
     return fetch(path, { cache: 'no-cache' }).then(function (r) {
       if (!r.ok) throw new Error(path + ' → HTTP ' + r.status);
@@ -122,6 +144,7 @@
 
   /* ---------- News ---------- */
   function renderNews(el, rows) {
+    rows = rows.slice().sort(byDateDesc('date'));      // newest first, whatever the file order
     el.innerHTML = rows.map(function (r) {
       var imgs = (r.image || '').split(';').map(function (s) { return s.trim(); }).filter(Boolean);
       var yt = youTubeId(r.link_url);
@@ -159,6 +182,7 @@
 
   /* ---------- Reading Club & Workshops (grouped by year) ---------- */
   function renderYearGroups(el, rows, opts) {
+    rows = rows.slice().sort(byDateDesc('date'));      // newest year/month first
     var order = [], byYear = {};
     rows.forEach(function (r) {
       if (!r[opts.chair] && !r[opts.title]) return;     // skip blank rows
@@ -187,6 +211,7 @@
 
   /* ---------- Social — termly events ---------- */
   function renderSocial(el, rows) {
+    rows = rows.slice().sort(byDateDesc('date'));      // most recent event first
     el.innerHTML = rows.map(function (r) {
       var flag = [r.Term, r.date].filter(Boolean).map(esc).join(' · ');
       return '<article class="card event-card reveal">' +
@@ -210,6 +235,7 @@
       (r.image || '').split(';').map(function (s) { return s.trim(); }).filter(Boolean)
         .forEach(function (fn) { byEvent[key].photos.push({ image: fn, caption: r.caption || '' }); });
     });
+    order.sort(function (a, b) { return dateKey(byEvent[b].date) - dateKey(byEvent[a].date); });  // newest event first
     el.innerHTML = order.map(function (key) {
       var g = byEvent[key];
       var carousel = carouselHtml(g.photos.map(function (p) {
@@ -226,6 +252,7 @@
 
   /* ---------- Important dates ---------- */
   function renderDates(el, rows) {
+    rows = rows.slice().sort(function (a, b) { return dateKey(a.date) - dateKey(b.date); });  // soonest upcoming first
     el.innerHTML = rows.map(function (r) {
       return '<li><span class="ev">' + esc(r.event) + '</span>' +
         '<span class="dt">' + esc(r.date) + '</span></li>';
