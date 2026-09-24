@@ -216,12 +216,21 @@
       var flag = [r.Term, r.date].filter(Boolean).map(esc).join(' · ');
       return '<article class="card event-card reveal">' +
         '<img class="event-card__img" src="images/social/' + esc(r.image) + '" alt="' + esc(r.title) +
-        '" loading="lazy" />' +
+        '" loading="lazy" style="cursor:zoom-in" />' +
         '<div class="event-card__body"><span class="event-card__flag">' + flag + '</span>' +
         '<div class="event-card__title">' + esc(r.title) + '</div>' +
         '<div class="event-card__meta">Organised by ' + esc(r.organiser) + '</div></div></article>';
     }).join('');
     initFx(el);
+    // Click any event photo to preview/expand it in the shared lightbox (arrow through all events).
+    var lb = buildLightbox();
+    var photos = rows.map(function (r) {
+      return { src: 'images/social/' + r.image,
+               caption: [r.title, r.Term, r.date].filter(Boolean).join(' · ') };
+    });
+    el.querySelectorAll('.event-card__img').forEach(function (img, i) {
+      img.addEventListener('click', function () { lb.open(photos, i); });
+    });
   }
 
   /* ---------- Life in the Lab — one slideshow per event ---------- */
