@@ -347,6 +347,12 @@ p  { color: var(--text-muted); }
 .pub-list li:hover { border-color: var(--border-strong); transform: translateX(4px); background: var(--surface-2); }
 .pub-list li a { color: var(--text); text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; transition: text-decoration-color 0.2s; }
 .pub-list li a:hover { text-decoration-color: var(--accent-2); }
+.pub-years .year-block { margin-bottom: 2.5rem; }
+.pub-years .year-block:last-child { margin-bottom: 0; }
+.pub-years .year-head { margin-bottom: 1rem; }
+.pub-years .year-head h3 { font-size: clamp(1.25rem, 2.4vw, 1.7rem); }
+.year-count { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
+
 .pub-panel { display: none; }
 .pub-panel.active { display: block; animation: fade 0.4s var(--ease); }
 @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }

@@ -7,9 +7,9 @@
   <meta name="description" content="Recent journal articles and indexed conference proceedings from the UCL Analytics & AI for Learning Team." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="assets/styles.css?v=2" />
+  <link rel="stylesheet" href="assets/styles.css?v=3" />
   <script defer src="assets/main.js?v=2"></script>
-  <script defer src="assets/content.js?v=10"></script>
+  <script defer src="assets/content.js?v=11"></script>
 </head>
 <body>
 
@@ -47,7 +47,7 @@
       <div class="container">
         <p class="breadcrumb"><a href="index.html">Home</a> / Recent Publications</p>
         <h1>Recent <span class="gradient-text">Publications</span></h1>
-        <p class="lead">A selection of the team's most recent journal articles and indexed conference proceedings on learning analytics, multimodal data and AI in education.</p>
+        <p class="lead">The team's most recent journal articles and indexed conference proceedings on learning analytics, multimodal data and AI in education, grouped by year.</p>
         <div class="hero__cta" style="margin-top:1.5rem">
           <a class="btn btn--primary" href="https://scholar.google.com/citations?hl=en&amp;user=OsfFt0cAAAAJ" target="_blank" rel="noopener">View the full list on Google Scholar <span class="arrow">→</span></a>
         </div>
@@ -61,18 +61,19 @@
           <button class="pub-tab" data-target="conferences" role="tab">Conference Proceedings &amp; Preprints</button>
         </div>
 
-        <!-- Publication lists are rendered from data/publications.csv by assets/content.js.
-             That CSV is refreshed automatically each week from OpenAlex by the GitHub Action
-             at .github/workflows/update-publications.yml — see CONTENT-GUIDE.md. -->
+        <!-- Publication lists are rendered from data/publications.csv by assets/content.js,
+             grouped into one block per year. That CSV is refreshed automatically each month
+             from OpenAlex by the GitHub Action at .github/workflows/update-publications.yml
+             — see CONTENT-GUIDE.md. -->
 
         <!-- ===== Journals ===== -->
         <div class="pub-panel active" id="journals">
-          <ol class="pub-list" id="pub-journals"></ol>
+          <div class="pub-years" id="pub-journals"></div>
         </div>
 
         <!-- ===== Conferences ===== -->
         <div class="pub-panel" id="conferences">
-          <ol class="pub-list" id="pub-conferences"></ol>
+          <div class="pub-years" id="pub-conferences"></div>
         </div>
 
         <p class="note">This list is updated automatically each month from <a class="muted-link" href="https://openalex.org/" target="_blank" rel="noopener">OpenAlex</a>. For the complete list including citations, see <a class="muted-link" href="https://scholar.google.com/citations?hl=en&amp;user=OsfFt0cAAAAJ" target="_blank" rel="noopener">Google Scholar</a>.</p>

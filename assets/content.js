@@ -365,14 +365,34 @@
     return box.__api;
   }
 
-  /* ---------- Publications (one CSV -> two tabbed lists) ---------- */
+  /* ---------- Publications (one CSV -> two tabbed lists, each split by year) ---------- */
   function renderPublications(rows) {
     var buckets = { journal: [], conference: [] };
     rows.forEach(function (r) { (buckets[r.type] || buckets.conference).push(r); });
     [['pub-journals', 'journal'], ['pub-conferences', 'conference']].forEach(function (pair) {
       var el = document.getElementById(pair[0]);
       if (!el) return;
-      el.innerHTML = buckets[pair[1]].map(function (r) { return '<li>' + (r.citation || '') + '</li>'; }).join('');
+      var items = buckets[pair[1]].filter(function (r) { return r.citation; });
+      if (!items.length) { el.innerHTML = '<p class="note">Nothing to show yet.</p>'; return; }
+
+      var order = [], byYear = {};                     // the CSV already arrives newest-first
+      items.forEach(function (r) {
+        var y = (r.year || '').trim() || '—';
+        if (!byYear[y]) { byYear[y] = []; order.push(y); }
+        byYear[y].push(r);
+      });
+
+      el.innerHTML = order.map(function (y, i) {
+        var n = byYear[y].length;
+        // The newest block is painted straight away — it opens below the fold, so a
+        // reveal animation would leave the top of the list blank until you scroll.
+        return '<div class="year-block' + (i ? ' reveal' : '') + '"><div class="year-head"><h3>' + esc(y) +
+          '</h3><span class="year-count">' + n + (n === 1 ? ' paper' : ' papers') +
+          '</span></div><ol class="pub-list">' +
+          byYear[y].map(function (r) { return '<li>' + r.citation + '</li>'; }).join('') +
+          '</ol></div>';
+      }).join('');
+      initFx(el);
     });
   }
 

@@ -6,17 +6,21 @@ Pulls the most recent works for the lab's author(s), formats each as an APA-styl
 citation, splits them into "journal" vs "conference" (conference proceedings +
 preprints), and writes them to data/publications.csv.
 
+Books, reports and dissertations are skipped — the page has only the two panels.
+
 Run locally:   python3 scripts/update_publications.py
-Runs weekly on GitHub Actions (see .github/workflows/update-publications.yml).
+Runs monthly on GitHub Actions (see .github/workflows/update-publications.yml).
 
 No API key needed. OpenAlex just asks for a contact email in the query (the
 "polite pool") — set via the MAILTO env var or the default below.
 """
-import csv, json, os, re, sys, urllib.parse, urllib.request
+import csv, json, os, re, sys, time, urllib.error, urllib.parse, urllib.request
 
 # --- Config -----------------------------------------------------------------
 AUTHOR_IDS = ["A5010726815"]         # Mutlu Cukurova (UCL). Add more IDs to include co-leads.
-MAX_ITEMS  = 40                      # how many recent works to show on the page
+MAX_ITEMS  = 80                      # how many recent works to show on the page
+PER_PAGE   = 200                     # OpenAlex's maximum page size
+MAX_PAGES  = 25                      # 5,000 works — a safety stop, never reached in practice
 MAILTO     = os.environ.get("MAILTO", "m.cukurova@ucl.ac.uk")
 OUT_PATH   = os.path.join(os.path.dirname(__file__), "..", "data", "publications.csv")
 
@@ -24,19 +28,52 @@ OUT_PATH   = os.path.join(os.path.dirname(__file__), "..", "data", "publications
 SKIP_TYPES = {"dataset", "peer-review", "grant", "paratext", "editorial",
               "erratum", "retraction", "reference-entry", "report-component"}
 
+# Types that belong in panel 2 ("Conference Proceedings & Preprints").
+# "conference-paper" is OpenAlex's current name for what it used to call
+# "proceedings-article"; both are listed so the script survives either vocabulary.
+# Springer proceedings (LNCS/CCIS) arrive as "conference-paper" with a "book series"
+# source, or sometimes as "book-chapter" — hence both are here too.
+CONF_TYPES = {"conference-paper", "proceedings-article", "preprint",
+              "posted-content", "book-chapter"}
+
+# Types that belong in panel 1 ("Journal Articles").
+JOURNAL_TYPES = {"article", "review", "letter"}
+
+
+def fetch_json(url, tries=4):
+    """GET with a few retries — OpenAlex hands out the odd 429/504, and an unattended
+    monthly run should ride that out rather than fail the whole workflow."""
+    for attempt in range(1, tries + 1):
+        req = urllib.request.Request(url, headers={"User-Agent": f"UCLAIT-site ({MAILTO})"})
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                return json.load(r)
+        except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as e:
+            if attempt == tries:
+                raise
+            print(f"  OpenAlex request failed ({e}) — retrying in {attempt * 5}s", file=sys.stderr)
+            time.sleep(attempt * 5)
+
 
 def fetch_works(author_id):
-    base = "https://api.openalex.org/works"
-    params = {
-        "filter": f"author.id:{author_id}",
-        "sort": "publication_date:desc",
-        "per-page": "200",
-        "mailto": MAILTO,
-    }
-    url = base + "?" + urllib.parse.urlencode(params)
-    req = urllib.request.Request(url, headers={"User-Agent": f"UCLAIT-site ({MAILTO})"})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return json.load(r)["results"]
+    """Every work for an author, newest first. OpenAlex caps a page at 200, so walk the
+    pages — otherwise anything past the 200th work is invisible. Uses plain page= paging:
+    cursor paging now needs an API key, basic paging is still free up to 10,000 results."""
+    base, out = "https://api.openalex.org/works", []
+    for page_no in range(1, MAX_PAGES + 1):
+        params = {
+            "filter": f"author.id:{author_id}",
+            "sort": "publication_date:desc",
+            "per-page": str(PER_PAGE),
+            "page": str(page_no),
+            "mailto": MAILTO,
+        }
+        page = fetch_json(base + "?" + urllib.parse.urlencode(params))
+        results = page.get("results") or []
+        out.extend(results)
+        if len(results) < PER_PAGE:
+            break
+    return out
 
 
 def format_author(display_name):
@@ -73,10 +110,24 @@ def clean_text(s):
     return s
 
 
+# OpenAlex stores Springer's proceedings series in sentence case; APA wants them titled.
+VENUE_FIXES = {
+    "lecture notes in computer science": "Lecture Notes in Computer Science",
+    "lecture notes in networks and systems": "Lecture Notes in Networks and Systems",
+    "lecture notes in educational technology": "Lecture Notes in Educational Technology",
+    "lecture notes in artificial intelligence": "Lecture Notes in Artificial Intelligence",
+    "communications in computer and information science": "Communications in Computer and Information Science",
+    "advances in intelligent systems and computing": "Advances in Intelligent Systems and Computing",
+    "springer ebooks": "Springer",
+}
+
+
 def clean_venue(v):
     v = clean_text(v)
     v = re.sub(r"\s*\(.*\)\s*$", "", v)             # 'arXiv (Cornell University)' -> 'arXiv'
-    return v
+    if "/" in v:                                   # OpenAlex joins a venue's alternate
+        v = max(v.split("/"), key=len).strip()     # names with '/': keep the fullest one
+    return VENUE_FIXES.get(v.lower(), v)
 
 
 def norm_title(t):
@@ -88,16 +139,15 @@ def esc(s):
 
 
 def categorise(w, source_type):
+    """Which panel a work belongs in — decided by its type first, and only then by
+    where it was published. Keying off the source alone silently dropped every
+    proceedings paper whose venue OpenAlex files as a book series or a repository."""
     t = w.get("type") or ""
-    if t in ("preprint", "posted-content"):
-        return "conference"                   # panel 2 = "Conference Proceedings & Preprints"
-    if t == "proceedings-article" or source_type == "conference":
+    if t in CONF_TYPES or source_type == "conference":
         return "conference"
-    if t in ("article", "review", "letter") and source_type == "journal":
-        return "journal"
-    if t == "book-chapter":                   # LNCS/CCIS proceedings show up as chapters
-        return "conference"
-    return None                               # anything else: skip
+    if t in JOURNAL_TYPES:
+        return "journal"                      # incl. records whose only location is a repository
+    return None                               # books, reports, dissertations: skip
 
 
 def build_citation(w):
@@ -149,10 +199,11 @@ def main():
                 continue
             seen.add(key)
             rows.append({"year": w.get("publication_year") or 0,
+                         "date": w.get("publication_date") or "",
                          "type": cat,
                          "citation": build_citation(w)})
 
-    rows.sort(key=lambda r: r["year"], reverse=True)
+    rows.sort(key=lambda r: (r["year"], r["date"]), reverse=True)
     rows = rows[:MAX_ITEMS]
 
     if not rows:
